@@ -14,6 +14,13 @@ def preprocess_calendar():
     df_calendar['price'] = pd.to_numeric(df_calendar['price'], 'raise', 'signed')
     df_calendar['price'] = df_calendar['price'].astype(dtype='Int32')
 
+    def split_date(column):
+        mylist = column.split("-")
+        month = mylist[1]
+        return month
+
+    df_calendar['month'] = df_calendar.date.apply(split_date)
+
     # df_calendar.info()
 
 
@@ -82,6 +89,19 @@ def preprocess_listings():
 
     df_listings.drop('license', 1,inplace=True)
     df_listings.drop('jurisdiction_names', 1,inplace=True)
+
+
+    df_listings['security_deposit'].fillna(0, inplace=True)
+    df_listings['cleaning_fee'].fillna(0, inplace=True)
+    df_listings['total_price'] = df_listings['price'] + df_listings['cleaning_fee']
+
+    df_listings["host_response_rate"] = df_listings["host_response_rate"].str.strip("%")
+
+    df_listings["host_response_rate"].fillna(0, inplace=True)
+
+    # df_listings["host_response_rate"] = df_listings["host_response_rate"].astype(dtype='Int32')
+
+    # df_listings["host_response_rate"] = df_listings["host_response_rate"] / 100
 
     # df_listings.info()
 
