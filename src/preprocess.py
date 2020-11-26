@@ -111,7 +111,6 @@ def preprocess_reviews():
 
 
 
-
 with open("data/calendar.csv") as f:
     df_calendar = pd.read_csv("data/calendar.csv")
 with open("data/listings.csv") as f:
