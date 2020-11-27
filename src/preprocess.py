@@ -98,6 +98,15 @@ def preprocess_listings():
     df_listings["host_response_rate"] = df_listings["host_response_rate"].str.strip("%")
 
     df_listings["host_response_rate"].fillna(0, inplace=True)
+    df_listings.drop('listing_url', 1,inplace=True)
+    df_listings.drop('thumbnail_url', 1,inplace=True)
+    df_listings.drop('medium_url', 1,inplace=True)
+    df_listings.drop('picture_url', 1,inplace=True)
+    df_listings.drop('xl_picture_url', 1,inplace=True)
+    df_listings.drop('host_url', 1,inplace=True)
+    df_listings.drop('host_thumbnail_url', 1,inplace=True)
+    df_listings.drop('host_picture_url', 1,inplace=True)
+
 
     # df_listings["host_response_rate"] = df_listings["host_response_rate"].astype(dtype='Int32')
 
