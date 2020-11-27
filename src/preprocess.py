@@ -108,8 +108,16 @@ def preprocess_listings():
 def preprocess_reviews():
     for j in df_reviews.columns:
         df_reviews[j]=df_reviews[j].replace(to_replace={r'[^ -~]'},value='',regex=True)
-
-
+    # print(df_listings["price"])
+    # dic=pd.Series(df_listings["price"].values, index=df_listings["id"]).to_dict()
+    # print(dic)
+    df_new=df_reviews[['listing_id' , 'comments']]
+    df_new=df_new.groupby('listing_id')['comments'].apply(list).reset_index(name='comments')
+    df_new=df_new.rename(columns={'listing_id':'id'})
+    # print(df_new)
+    df_merge=pd.merge(df_listings,df_new,on='id')
+    with open("data/listings_pred.csv", "w") as f:
+        df_merge.to_csv(f, index=False, line_terminator='\n')
 
 with open("data/calendar.csv") as f:
     df_calendar = pd.read_csv("data/calendar.csv")
@@ -124,8 +132,6 @@ preprocess_reviews()
 
 with open("data/calendar_pred.csv", "w") as f:
     df_calendar.to_csv(f, index=False,line_terminator='\n')
-with open("data/listings_pred.csv", "w") as f:
-    df_listings.to_csv(f, index=False, line_terminator='\n')
-with open("data/reviews_pred.csv", "w") as f:
-    df_reviews.to_csv(f, index=False, line_terminator='\n')
+
 # print(sys.stdout.encoding)
+
