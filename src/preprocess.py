@@ -106,8 +106,13 @@ def preprocess_listings():
     df_listings.drop('host_url', 1,inplace=True)
     df_listings.drop('host_thumbnail_url', 1,inplace=True)
     df_listings.drop('host_picture_url', 1,inplace=True)
-
-
+    df_listings.drop('weekly_price', 1,inplace=True)
+    df_listings.drop('monthly_price', 1,inplace=True)
+    df_listings.drop('security_deposit', 1,inplace=True)
+    df_listings.drop('cleaning_fee', 1,inplace=True)
+    df_listings.drop('total_price', 1,inplace=True)
+    df_listings.drop('host_total_listings_count', 1,inplace=True)
+    # print(pd.Series.equals(df_listings['neighbourhood_cleansed'],df_listings['neighbourhood_group_cleansed']))
     # df_listings["host_response_rate"] = df_listings["host_response_rate"].astype(dtype='Int32')
 
     # df_listings["host_response_rate"] = df_listings["host_response_rate"] / 100
