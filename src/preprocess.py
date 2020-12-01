@@ -5,6 +5,7 @@ import numpy
 import tempfile
 import numpy as np
 import string
+from scipy.spatial import distance
 
 def preprocess_calendar():
     df_calendar['listing_id'] = df_calendar['listing_id'].astype(dtype='Int32')
@@ -118,6 +119,11 @@ def preprocess_listings():
     # df_listings["host_response_rate"] = df_listings["host_response_rate"] / 100
 
     # df_listings.info()
+    dist_lambda=lambda x: distance.euclidean(x,(-122.3380,47.6075))
+    location=list(zip(df_listings["longitude"],df_listings["latitude"]))
+    distances=list(map(dist_lambda,location))
+    # distance from Seattle art museum
+    df_listings['distances']=distances
 
 def preprocess_reviews():
     for j in df_reviews.columns:
@@ -130,6 +136,7 @@ def preprocess_reviews():
     df_new=df_new.rename(columns={'listing_id':'id'})
     # print(df_new)
     df_merge=pd.merge(df_listings,df_new,on='id')
+
     with open("data/listings_pred.csv", "w") as f:
         df_merge.to_csv(f, index=False, line_terminator='\n')
 
@@ -143,6 +150,7 @@ with open("data/reviews.csv") as f:
 preprocess_listings()
 preprocess_calendar()
 preprocess_reviews()
+
 
 with open("data/calendar_pred.csv", "w") as f:
     df_calendar.to_csv(f, index=False,line_terminator='\n')
